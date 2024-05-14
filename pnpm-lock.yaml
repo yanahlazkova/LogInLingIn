@@ -14,7 +14,7 @@ devDependencies:
     specifier: ^5.0.4
     version: 5.0.4(vite@5.2.11)(vue@3.4.27)
   vite:
-    specifier: ^5.2.0
+    specifier: ^5.2.11
     version: 5.2.11
 
 packages:

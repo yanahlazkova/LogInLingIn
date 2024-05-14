@@ -1,67 +1,137 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+  import { ref } from 'vue';
+
+  const logemail = ref('');
+  const logpass = ref('');
+  const regname = ref('');
+  const regemail = ref('');
+  const regpass = ref('');
+  const formDataLogIn = new FormData();
+  const formDataSignUp = new FormData();
+
+
+  const collectDataLogIn = () => {
+    // Собираем данные из полей
+    formDataLogIn.append('email', logemail.value);
+    formDataLogIn.append('password', logpass.value);
+    sendPOSTRequest(formDataLogIn)
+     
+  }
+  
+  const collectDataSignUp = () => {
+    formDataSignUp.append('name', regname.value)
+    formDataSignUp.append('email', regemail.value)
+    formDataSignUp.append('password', regpass.value)
+    console.log("SignUp: ");
+    for (const pair of formDataSignUp.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+    sendPOSTRequest(formDataSignUp)
+  }
+
+  async function sendPOSTRequest(formData) {
+    try{
+      const response = await fetch('http://127.0.0.1:5000/login', {
+        method: 'POST',
+        body: formData
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const responseData = await response.json();
+      console.log('Response from server:', responseData);
+    } catch (error) {
+      console.error('Error while submitting login form:', error);
+    
+    }
+  }
+
+  const submitLogin = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('email', logemail.value);
+      formData.append('password', logpass.value);
+      console.log("formData: ", logemail.value)
+
+      const response = await fetch('https://example.com/api/login', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const responseData = await response.json();
+      console.log('Response from server:', responseData);
+    } catch (error) {
+      console.error('Error while submitting login form:', error);
+    }
+  };
+
+
 </script>
 
 <template>
-  
-	<a href="https://front.codes/" class="logo" target="_blank">
-		<img src="https://assets.codepen.io/1462889/fcy.png" alt="">
-	</a>
+  <a href="https://front.codes/" class="logo" target="_blank">
+    <img src="https://assets.codepen.io/1462889/fcy.png" alt="">
+  </a>
 
-	<div class="section">
-		<div class="container">
-			<div class="row full-height justify-content-center">
-				<div class="col-12 text-center align-self-center py-5">
-					<div class="section pb-5 pt-5 pt-sm-2 text-center">
-						<h6 class="mb-0 pb-3"><span>Log In </span><span>Sign Up</span></h6>
-			          	<input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
-			          	<label for="reg-log"></label>
-						<div class="card-3d-wrap mx-auto">
-							<div class="card-3d-wrapper">
-								<div class="card-front">
-									<div class="center-wrap">
-										<div class="section text-center">
-											<h4 class="mb-4 pb-3">Log In</h4>
-											<div class="form-group">
-												<input type="email" name="logemail" class="form-style" placeholder="Your Email" id="logemail" autocomplete="off">
-												<i class="input-icon uil uil-at"></i>
-											</div>	
-											<div class="form-group mt-2">
-												<input type="password" name="logpass" class="form-style" placeholder="Your Password" id="logpass" autocomplete="off">
-												<i class="input-icon uil uil-lock-alt"></i>
-											</div>
-											<a href="#" class="btn mt-4">submit</a>
-                            				<p class="mb-0 mt-4 text-center"><a href="#0" class="link">Forgot your password?</a></p>
-				      					</div>
-			      					</div>
-			      				</div>
-								<div class="card-back">
-									<div class="center-wrap">
-										<div class="section text-center">
-											<h4 class="mb-4 pb-3">Sign Up</h4>
-											<div class="form-group">
-												<input type="text" name="logname" class="form-style" placeholder="Your Full Name" id="logname" autocomplete="off">
-												<i class="input-icon uil uil-user"></i>
-											</div>	
-											<div class="form-group mt-2">
-												<input type="email" name="logemail" class="form-style" placeholder="Your Email" id="logemail" autocomplete="off">
-												<i class="input-icon uil uil-at"></i>
-											</div>	
-											<div class="form-group mt-2">
-												<input type="password" name="logpass" class="form-style" placeholder="Your Password" id="logpass" autocomplete="off">
-												<i class="input-icon uil uil-lock-alt"></i>
-											</div>
-											<a href="#" class="btn mt-4">submit</a>
-				      					</div>
-			      					</div>
-			      				</div>
-			      			</div>
-			      		</div>
-			      	</div>
-		      	</div>
-	      	</div>
-	    </div>
-	</div>
+  <div class="section">
+    <div class="container">
+      <div class="row full-height justify-content-center">
+        <div class="col-12 text-center align-self-center py-5">
+          <div class="section pb-5 pt-5 pt-sm-2 text-center">
+            <h6 class="mb-0 pb-3"><span>Log In </span><span>Sign Up</span></h6>
+            <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
+            <label for="reg-log"></label>
+            <div class="card-3d-wrap mx-auto">
+              <div class="card-3d-wrapper">
+                <div class="card-front">
+                  <div class="center-wrap">
+                    <div class="section text-center">
+                      <h4 class="mb-4 pb-3">Log In</h4>
+                      <div class="form-group">
+                        <input type="email" v-model="logemail" class="form-style" placeholder="Your Email" id="logemail" autocomplete="off">
+                        <i class="input-icon uil uil-at"></i>
+                      </div>  
+                      <div class="form-group mt-2">
+                        <input type="password" v-model="logpass" class="form-style" placeholder="Your Password" id="logpass" autocomplete="off">
+                        <i class="input-icon uil uil-lock-alt"></i>
+                      </div>
+                      <a href="#" class="btn mt-4" @click="collectDataLogIn">submit</a>
+                      <p class="mb-0 mt-4 text-center"><a href="#0" class="link">Forgot your password?</a></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-back">
+                  <div class="center-wrap">
+                    <div class="section text-center">
+                      <h4 class="mb-4 pb-3">Sign Up</h4>
+                      <div class="form-group">
+                        <input type="text" v-model="regname" class="form-style" placeholder="Your Full Name" id="regname" autocomplete="off">
+                        <i class="input-icon uil uil-user"></i>
+                      </div>  
+                      <div class="form-group mt-2">
+                        <input type="email" v-model="regemail" class="form-style" placeholder="Your Email" id="regemail" autocomplete="off">
+                        <i class="input-icon uil uil-at"></i>
+                      </div>  
+                      <div class="form-group mt-2">
+                        <input type="password" v-model="regpass" class="form-style" placeholder="Your Password" id="regpass" autocomplete="off">
+                        <i class="input-icon uil uil-lock-alt"></i>
+                      </div>
+                      <a href="#" class="btn mt-4" @click="collectDataSignUp">submit</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
