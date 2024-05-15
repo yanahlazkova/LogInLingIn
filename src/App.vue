@@ -14,7 +14,7 @@
     // Собираем данные из полей
     formDataLogIn.append('email', logemail.value);
     formDataLogIn.append('password', logpass.value);
-    sendPOSTRequest(formDataLogIn)
+    sendPOSTRequest(formDataLogIn, "/login")
   }
 
   const collectDataSignUp = () => {
@@ -25,12 +25,13 @@
     for (const pair of formDataSignUp.entries()) {
       console.log(pair[0], pair[1]);
     }
-    sendPOSTRequest(formDataSignUp)
+    sendPOSTRequest(formDataSignUp, "/signup")
   }
 
-  async function sendPOSTRequest(formData) {
+  async function sendPOSTRequest(formData, page) {
     try{
-      const response = await fetch('http://127.0.0.1:5000', {
+      const url = 'http://127.0.0.1:5000' + page
+      const response = await fetch(url, {
         method: 'POST',
         body: formData
       });
