@@ -1,27 +1,26 @@
-from flask import Flask, request
-# url = "https://jsonplaceholder.typicode.com/users"
-# respons = requests.get(url)
-# if respons.status_code == 200:
-#     data = respons.json()
-#     for user in data:
-#         print("=================\n")
-#         print(user['name'], " = ", user['username'])
-# else:
-#     print("Request failed: ", respons.status_code)
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+# Разрешает CORS (совместное использование ресурсов между источниками) для всех маршрутов
+CORS(app)
 
-@app.route('/login', methods=['POST'])
+@app.route('/', methods=['POST'])
 def login():
-
     if request.method == 'POST':
-        # Получаем данные из POST-запроса
-        email = request.form['email']
-        password = request.form['password']
+        # Получаем данные из тела POST-запроса
+        data = request.form
+        email = data.get('email')
+        password = data.get('password')
 
-        # Теперь можно обработать эти данные или выполнить другие действия
-        
-        return f'Email: {email}, Password: {password}'
+        # Обрабатываем данные, например, проверяем их
+        print(f"email: {email}\npassword: {password}")
+        if email == 'ecovod2003@ukr.net' and password == '111':
+            print("success!!!")
+            return jsonify({'success': True, 'message': 'Login successful'}), 200
+        else:
+            return jsonify({'success': False, 'message': 'Invalid email or password'})
+
 
 if __name__ == '__main__':
     app.run(debug=True)

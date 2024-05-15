@@ -15,9 +15,8 @@
     formDataLogIn.append('email', logemail.value);
     formDataLogIn.append('password', logpass.value);
     sendPOSTRequest(formDataLogIn)
-     
   }
-  
+
   const collectDataSignUp = () => {
     formDataSignUp.append('name', regname.value)
     formDataSignUp.append('email', regemail.value)
@@ -31,7 +30,7 @@
 
   async function sendPOSTRequest(formData) {
     try{
-      const response = await fetch('http://127.0.0.1:5000/login', {
+      const response = await fetch('http://127.0.0.1:5000', {
         method: 'POST',
         body: formData
       });
@@ -41,34 +40,15 @@
 
       const responseData = await response.json();
       console.log('Response from server:', responseData);
+      if (responseData.success) {
+        console.log("Success!!!")
+      } else {
+        console.log("No success!")}
     } catch (error) {
       console.error('Error while submitting login form:', error);
-    
+
     }
   }
-
-  const submitLogin = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('email', logemail.value);
-      formData.append('password', logpass.value);
-      console.log("formData: ", logemail.value)
-
-      const response = await fetch('https://example.com/api/login', {
-        method: 'POST',
-        body: formData
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const responseData = await response.json();
-      console.log('Response from server:', responseData);
-    } catch (error) {
-      console.error('Error while submitting login form:', error);
-    }
-  };
 
 
 </script>
@@ -95,7 +75,7 @@
                       <div class="form-group">
                         <input type="email" v-model="logemail" class="form-style" placeholder="Your Email" id="logemail" autocomplete="off">
                         <i class="input-icon uil uil-at"></i>
-                      </div>  
+                      </div>
                       <div class="form-group mt-2">
                         <input type="password" v-model="logpass" class="form-style" placeholder="Your Password" id="logpass" autocomplete="off">
                         <i class="input-icon uil uil-lock-alt"></i>
@@ -112,11 +92,11 @@
                       <div class="form-group">
                         <input type="text" v-model="regname" class="form-style" placeholder="Your Full Name" id="regname" autocomplete="off">
                         <i class="input-icon uil uil-user"></i>
-                      </div>  
+                      </div>
                       <div class="form-group mt-2">
                         <input type="email" v-model="regemail" class="form-style" placeholder="Your Email" id="regemail" autocomplete="off">
                         <i class="input-icon uil uil-at"></i>
-                      </div>  
+                      </div>
                       <div class="form-group mt-2">
                         <input type="password" v-model="regpass" class="form-style" placeholder="Your Password" id="regpass" autocomplete="off">
                         <i class="input-icon uil uil-lock-alt"></i>
