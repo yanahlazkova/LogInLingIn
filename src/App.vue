@@ -11,16 +11,18 @@
 
 
   const collectDataLogIn = () => {
+
     // Собираем данные из полей
-    formDataLogIn.append('email', logemail.value);
-    formDataLogIn.append('password', logpass.value);
+    formDataLogIn.set('email', logemail.value);
+    formDataLogIn.set('password', logpass.value);
     sendPOSTRequest(formDataLogIn, "/login")
   }
 
   const collectDataSignUp = () => {
-    formDataSignUp.append('name', regname.value)
-    formDataSignUp.append('email', regemail.value)
-    formDataSignUp.append('password', regpass.value)
+
+    formDataSignUp.set('name', regname.value)
+    formDataSignUp.set('email', regemail.value)
+    formDataSignUp.set('password', regpass.value)
     console.log("SignUp: ");
     for (const pair of formDataSignUp.entries()) {
       console.log(pair[0], pair[1]);
