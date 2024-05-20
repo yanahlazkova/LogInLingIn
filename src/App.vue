@@ -32,7 +32,7 @@
 
   async function sendPOSTRequest(formData, page) {
     try{
-      const url = 'http://127.0.0.1:5000' + page
+      const url = `http://127.0.0.1:5000${page}`
       const response = await fetch(url, {
         method: 'POST',
         body: formData
@@ -45,6 +45,7 @@
       console.log('Response from server:', responseData);
       if (responseData.success) {
         console.log("Success!!!")
+        sendGETRequest(logemail.value, logpass.value);
       } else {
         console.log("No success!")}
     } catch (error) {
@@ -53,7 +54,24 @@
     }
   }
 
+async function sendGETRequest(email, password) {
+  try {
+    // const response = await fetch('https://jsonplaceholder.typicode.com/users');
+    const url = `http://127.0.0.1:5000/user_data?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+    console.log(email, password, url)
+    const response = await fetch(url, {
+        method: 'GET',
+    });
+    if (!response.ok) {
+      throw new Error('Ошибка при загрузке данных сервера');
+    }
+    const data = await response.json(); // Преобразование ответа в JSON формат
+    console.log('Данные с сервера:', data);
 
+  } catch (error) {
+    console.error('Ошибка при получении данных:', error);
+  }
+}
 </script>
 
 <template>
